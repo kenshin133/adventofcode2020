@@ -1,18 +1,11 @@
 import re
 ##day 1: 
-"""Specifically, they need you to find the two entries that sum to 2020 and then multiply those two numbers together.
+"""--- Part Two ---
+The Elves in accounting are thankful for your help; one of them even offers you a starfish coin they had left over from a past vacation. They offer you a second one if you can find three numbers in your expense report that meet the same criteria.
 
-For example, suppose your expense report contained the following:
+Using the above example again, the three entries that sum to 2020 are 979, 366, and 675. Multiplying them together produces the answer, 241861950.
 
-    1721
-    979
-    366
-    299
-    675
-    1456
-    In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying them together produces 1721 * 299 = 514579, so the correct answer is 514579.
-
-    Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?"""
+In your expense report, what is the product of the three entries that sum to 2020?"""
 
 
 file=open("day1-input","r")    
@@ -22,17 +15,18 @@ file.close()
 print(input)
 
 for primary in input:
-    print("primary is " + str(primary))
+    #print("primary is " + str(primary))
     for secondary in input[1:]:
         if primary == secondary:
             #nothing
             continue
         else:
-            print("secondary = " + str(secondary))
-            added=int(primary) + int(secondary)
-            print("added = " + str(added))
-            if added == 2020:
-                print(str(primary) + " + " + str(secondary) + " = 2020")
-                multiplied = int(primary) * int(secondary)
-                print("multiplied those it is " + str(multiplied))
-                break
+            for tertiary in input[2:]:
+                #print("tertiary = " + str(tertiary))
+                added=int(primary) + int(secondary) + int(tertiary)
+                #print("added = " + str(added))
+                if added == 2020:
+                    print("we found 2020")
+                    multiplied = int(primary) * int(secondary) * int(tertiary)
+                    print("multiplied those it is " + str(multiplied))
+                    break
