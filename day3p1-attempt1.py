@@ -57,25 +57,56 @@ def growArray(input, slope):
     for i in range(0,len(input)):
         slope[i]=slope[i]+input[i]
 
-def checkNext(slope, posx, locationy):
-    if (posx + 3) <= len(slope[1]):
+def checkNext(slope, locationx, locationy, addx, addy):
+    if (locationx + addx) <= len(slope[addy]) and locationy + addy <= len(slope)-1:
         #print("posx is " + str(posx))
         #print("slope is " + str(len(slope[1])) + " wide")
         return 0
+    elif locationy + addy >= len(slope)-1:
+        print (locationy)
+        print (addy)
+        print (len(slope))
+        locationy+2
+        return 0
 
+def updateMap(posx,posy): 
+    if slope[posy][posx] == ".":
+        slope[posy][posx] = "O"
+    elif slope[posy][posx] == "#":
+        slope[posy][posx] = "X"
 
-def move(slope,posx,posy):
-    global locationy
-    print("pos is [" + str(posx) + "][" + str(posy) + "]")
-    print("moving one down")
-    locationy=locationy+1
-    print("pos is [" + str(posx) + "][" + str(posy) + "]")
-    if slope[posy][posx] == "#":
-        print("TREEEEEEEE")
+def move(slope,addx,addy):
+    global locationy,locationx,trees,bottom
+    #print("pos is [" + str(locationx) + "][" + str(locationy) + "]")
+#    print("pos is [" + str(locationx) + "][" + str(locationy) + "]")
+    print(locationy)
+    print(locationx)
+    if locationy == len(slope):
+        print("YOU WIN")
+        #print(trees)
+        bottom=1
+    elif slope[locationy][locationx] == "#":
+        trees=trees+1
+        print("TREEEEEEEE oof!")
+        locationy = locationy+addy
+        locationx = locationx+addx
     else:
         print("dirt")
-    
+        locationy = locationy+addy
+        locationx = locationx+addx
+def checkSlope(pathx,pathy): 
+    global locationx, locationy
+    while bottom==0:
+        if checkNext(slope,locationx,locationy,pathx,pathy) == 0:
+        #    print(locationy)
+            move(slope,pathx,pathy)
+        #   print(locationy)
+        else:
+            growArray(input,slope)
+    return trees
+
 file=open("day3-input.sample","r")
+#file=open("day3-input","r")
 #this re regular expression removes the /n or whatever
 input=re.findall(r"\S+",file.read())
 file.close()
@@ -86,18 +117,38 @@ slope=input.copy()
 #growArray(input,slope)
 
 locationx=0
-locationy=8
+locationy=0
 
-print("positiing is [" + str(locationx)+"][" + str(locationy) + "]")
-
+for i in slope:
+    print(i)
 bottom = 0
 trees = 0
-while bottom==0:
-    for i in slope:
-        print(i)
-    if checkNext(slope,locationx,locationy) == 0:
-        print(locationy)
-        move(slope, locationx,locationy)
-        print(locationy)
-    else:
-        growArray(input,slope)
+pathx=3
+pathy=1
+#slope1=checkSlope(1,1)
+#print("hit trees: " + str(trees))
+#locationx=0
+#locationy=0
+#bottom = 0
+#trees = 0
+#slope2=checkSlope(3,1)
+#print("hit trees: " + str(trees))
+#locationx=0
+#locationy=0
+#bottom = 0
+#trees = 0
+#slope3=checkSlope(5,1)
+#print("hit trees: " + str(trees))
+#locationx=0
+#locationy=0
+#bottom = 0
+#trees = 0
+#slope4=checkSlope(7,1)
+#print("hit trees: " + str(trees))
+#locationx=0
+#locationy=0
+#bottom = 0
+#trees = 0
+slope5=checkSlope(1,2)
+print("hit trees: " + str(trees))
+#print("answer is :" + str(slope5 * slope4 * slope3 * slope2 * slope1))
