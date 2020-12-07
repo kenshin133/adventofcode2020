@@ -57,7 +57,8 @@ def growArray(input, slope):
     for i in range(0,len(input)):
         slope[i]=slope[i]+input[i]
 
-def checkNext(slope, locationx, locationy, addx, addy):
+def checkNext(slope, addx, addy):
+    global locationy
     if (locationx + addx) <= len(slope[addy]) and locationy + addy <= len(slope)-1:
         #print("posx is " + str(posx))
         #print("slope is " + str(len(slope[1])) + " wide")
@@ -66,22 +67,19 @@ def checkNext(slope, locationx, locationy, addx, addy):
         print (locationy)
         print (addy)
         print (len(slope))
-        locationy+2
+        locationy+1
         return 0
 
-def updateMap(posx,posy): 
-    if slope[posy][posx] == ".":
-        slope[posy][posx] = "O"
-    elif slope[posy][posx] == "#":
-        slope[posy][posx] = "X"
 
 def move(slope,addx,addy):
     global locationy,locationx,trees,bottom
     #print("pos is [" + str(locationx) + "][" + str(locationy) + "]")
 #    print("pos is [" + str(locationx) + "][" + str(locationy) + "]")
     print(locationy)
+    print(len(slope))
     print(locationx)
-    if locationy == len(slope):
+    print(len(slope[1]))
+    if locationy == len(slope)-1:
         print("YOU WIN")
         #print(trees)
         bottom=1
@@ -97,7 +95,7 @@ def move(slope,addx,addy):
 def checkSlope(pathx,pathy): 
     global locationx, locationy
     while bottom==0:
-        if checkNext(slope,locationx,locationy,pathx,pathy) == 0:
+        if checkNext(slope,pathx,pathy) == 0:
         #    print(locationy)
             move(slope,pathx,pathy)
         #   print(locationy)
@@ -143,12 +141,12 @@ pathy=1
 #locationy=0
 #bottom = 0
 #trees = 0
-#slope4=checkSlope(7,1)
+slope4=checkSlope(7,1)
 #print("hit trees: " + str(trees))
 #locationx=0
 #locationy=0
 #bottom = 0
 #trees = 0
-slope5=checkSlope(1,2)
+#slope5=checkSlope(1,2)
 print("hit trees: " + str(trees))
 #print("answer is :" + str(slope5 * slope4 * slope3 * slope2 * slope1))
