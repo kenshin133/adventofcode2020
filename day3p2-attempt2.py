@@ -1,7 +1,5 @@
 import re
 from array import *
-#this is broken, it was never saved after the first challenge and is now half finished part two code. It should still work for the original puzzle Its
-#its hard to say
 '''--- Day 3: Toboggan Trajectory ---
     With the toboggan login problems resolved, you set off toward the airport. While travel by toboggan might be easy, it's certainly not safe: there's very minimal steering and the area is covered in trees. You'll need to see which angles will take you near the fewest trees.
     
