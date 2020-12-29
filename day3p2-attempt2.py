@@ -58,17 +58,32 @@ def growArray(input, slope):
         slope[i]=slope[i]+input[i]
 
 def checkNext(slope, addx, addy):
-    global locationy
-    if (locationx + addx) <= len(slope[addy]) and locationy + addy <= len(slope)-1:
+    global locationy, locationx, pathx, pathy
+##    print("checknext: addx")
+##    print(addx)
+##    print("checknext: addy")
+##    print(addy)
+##    print("checknext: locationx")
+##    print(locationx)
+##    print("checknext: locationy")
+##    print(locationy)
+##    print("checknext: slopelen[1]")
+##    print(len(slope[1]))
+##    print("checknext: slopelen")
+##    print(len(slope))
+    #trying to remove y from this to simplify
+    if (locationx + addx) <= len(slope[1])-1 and locationy + addy <= len(slope)-1:
         #print("posx is " + str(posx))
         #print("slope is " + str(len(slope[1])) + " wide")
         return 0
-    elif locationy + addy >= len(slope)-1:
-        #print (locationy)
-        #print (addy)
-        #print (len(slope))
-        locationy+1
+    if (locationx + addx) <= len(slope[1])-1 and locationy + addy >= len(slope)-1:
+    #    #print (locationy)
+    #    #print (addy)
+    #    #print (len(slope))
+        pathy - 1
         return 0
+    else:
+        return 1
 
 
 def move(slope,addx,addy):
@@ -82,18 +97,36 @@ def move(slope,addx,addy):
     if locationy == len(slope)-1:
         #print("YOU WIN")
         #print(trees)
+#        print("locationy is " + str(locationy))
+#        print("locationx is " + str(locationx))
+#        print("slope is + " )
+#        print(len(slope))
         bottom=1
-    elif slope[locationy][locationx] == "#":
-        trees=trees+1
-        #print("TREEEEEEEE oof!")
-        locationy = locationy+addy
-        locationx = locationx+addx
+        if slope[locationy][locationx] == "#":
+            trees=trees+1
+            #print("TREEEEEEEE oof!")
+            locationy = locationy+addy
+            locationx = locationx+addx
+        else:
+            #print("dirt")
+            locationy = locationy+addy
+            locationx = locationx+addx
+    elif locationy == len(slope):
+        print("this is gametime")
     else:
-        #print("dirt")
-        locationy = locationy+addy
-        locationx = locationx+addx
+        if slope[locationy][locationx] == "#":
+            trees=trees+1
+            #print("TREEEEEEEE oof!")
+            locationy = locationy+addy
+            locationx = locationx+addx
+        else:
+            #print("dirt")
+            locationy = locationy+addy
+            locationx = locationx+addx
+
+
 def checkSlope(pathx,pathy): 
-    print(str(pathx) + " x " + str(pathy))
+#    print(str(pathx) + " x " + str(pathy))
     global locationx, locationy
     while bottom==0:
         if checkNext(slope,pathx,pathy) == 0:
@@ -101,11 +134,13 @@ def checkSlope(pathx,pathy):
             move(slope,pathx,pathy)
         #   print(locationy)
         else:
+#            print ("growing array")
             growArray(input,slope)
+#            print(str(len(slope)) + " x " + str(len(slope[1])))
     return trees
 
-file=open("day3-input.sample","r")
-#file=open("day3-input","r")
+#file=open("day3-input.sample","r")
+file=open("day3-input","r")
 #this re regular expression removes the /n or whatever
 input=re.findall(r"\S+",file.read())
 file.close()
@@ -117,40 +152,44 @@ slope=input.copy()
 
 locationx=0
 locationy=0
+pathx=0
+pathy=0
 
-for i in slope:
-    print(i)
+#for i in slope:
+#    print(i)
 bottom = 0
 trees = 0
-pathx=3
-pathy=1
-#print("below should be 2 trees)
-#slope1=checkSlope(1,1)
-#print("hit trees: " + str(trees))
-#locationx=0
-#locationy=0
-#bottom = 0
-#trees = 0
-#print("below should be 7 trees)
-#slope2=checkSlope(3,1)
-#print("hit trees: " + str(trees))
-#bottom = 0
-#trees = 0
-#print("below should be 3 trees)
+#print("below should be 2 trees")
+slope1=checkSlope(1,1)
+print("hit trees: " + str(trees))
+locationx=0
+locationy=0
+bottom = 0
+trees = 0
+#print("below should be 7 trees")
+slope2=checkSlope(3,1)
+print("hit trees: " + str(trees))
+locationx=0
+locationy=0
+bottom = 0
+trees = 0
+#print("below should be 3 trees")
 slope3=checkSlope(5,1)
 print("hit trees: " + str(trees))
 locationx=0
 locationy=0
 bottom = 0
 trees = 0
-#print("below should be 4 trees)
+#print("below should be 4 trees")
 slope4=checkSlope(7,1)
-#print("hit trees: " + str(trees))
-#locationx=0
-#locationy=0
-#bottom = 0
-#trees = 0
-#print("below should be 2 trees)
-#slope5=checkSlope(1,2)
 print("hit trees: " + str(trees))
+locationx=0
+locationy=0
+bottom = 0
+trees = 0
+#print("below should be 2 trees")
+slope5=checkSlope(1,2)
+print("hit trees: " + str(trees))
+print("multiplies to:")
+print(slope1 * slope2 * slope3 * slope4 * slope5)
 #print("answer is :" + str(slope5 * slope4 * slope3 * slope2 * slope1))
