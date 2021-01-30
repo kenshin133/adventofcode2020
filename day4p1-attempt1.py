@@ -61,6 +61,12 @@ temp=file.readlines()
 #file=open("day3-input.sample","r")
 #143 file=open("day3-input","r")
 #144 #this re regular expression removes the /n or whatever
+
+#this seemed to work in light testing, if we can just have a loop that terminates whenever a blank space is found and reset. 
+>>> for i in someting:...     if i != "\n":...             string = string + " " + i.strip('\n')
+...     else:
+...             print("DIE")...     print(string)... 
+
 input=re.findall(r"(?:\r?\n){2,}",file.read())
 file.close()
 print(input)
