@@ -39,15 +39,18 @@ def split(input, direction):
     #for i in range(0,input):
     #    newInput1 = newInput1 + (i ,)
 
-    if direction == "B":
-        print("you chose upper")
+    if direction == "B" or direction == "R":
         temp=()
+        print("you chose higher")
         for i in range(int(len(input)/2),len(input)):
-           temp=temp + (input[i] ,) 
+           if int(len(input)/2) > 1:     
+               temp = temp + (input[i] ,)
+           else:
+               temp = input[i] 
         return(temp)
-    elif direction == "F":
-        print("you chose lower")
+    elif direction == "F" or direction == "L":
         temp=()
+        print("you chose lower")
         for i in range(0,int(len(input)/2)):
            if int(len(input)/2) > 1:     
                temp = temp + (input[i] ,)
@@ -59,39 +62,48 @@ def makeRows(numberOfRows):
     newInput1=()
     for i in range(0,numberOfRows):
         if numberOfRows > 1:
-            print(i)
-            print(numberOfRows)
             newInput1 = newInput1 + (i ,)
         else:
             newInput1 = newInput1 + (i)
 
     return newInput1
 
-
-file=open("day5-input.sample","r")
-#file=open("day5-input","r")
+def checkifhighest(number):
+    if number > highestid:
+        return(number)
+    else:
+        return(highestid)
+#file=open("day5-input.sample","r")
+file=open("day5-input","r")
 #this re regular expression removes the /n or whatever
 temp=file.readlines()
 
-for i in temp:
-    print(i.strip("\n"))
 number=128
+seatoptions=8
 rows=makeRows(128)
+seats=makeRows(seatoptions)
+print(seats)
 print(rows)
+remainingrows=rows
+remainingseats=seats
+print("lets get seated")
+highestid=0
+for i in temp:
+    remainingrows=rows
+    remainingseats=seats
 
-split(rows,"B")
-remainingrows=split(rows,"B")
-print("pritingathing")
-print(remainingrows)
-remainingrows=split(remainingrows,"B")
-print(remainingrows)
-remainingrows=split(remainingrows,"B")
-print(remainingrows)
-remainingrows=split(remainingrows,"F")
-print(remainingrows)
-remainingrows=split(remainingrows,"B")
-print(remainingrows)
-remainingrows=split(remainingrows,"F")
-print(remainingrows)
-remainingrows=split(remainingrows,"F")
-print(remainingrows)
+    print(i)
+    for j in i:
+        if j == "F" or j == "B":
+            remainingrows=split(remainingrows,j)
+            print(remainingrows)
+        elif j == "L" or j == "R":
+            remainingseats=split(remainingseats,j)
+            print(remainingseats)
+    print()
+    print("please be seated in row: " + str(remainingrows) + " seat: " + str(remainingseats))
+    id=int((remainingrows * 8) + remainingseats)
+    print("id is: " + str(id))
+
+    highestid=checkifhighest(id)
+    print("highest so far was: " + str(highestid))
