@@ -42,14 +42,15 @@ import re
     For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts? 
 '''
 
-#file=open("day6-input","r")
-file=open("day6-input.sample","r")
+file=open("day6-input","r")
+#file=open("day6-input.sample","r")
 temp=file.readlines()
 
 #this is from day4 and handles splitting multiple lines into seperate structures based on a blank line
 string=""
 position=1
 passports=[]
+sum1=0
 for i in temp:
     if i != "\n":
         if string == "":
@@ -65,8 +66,18 @@ for i in temp:
             position=position+1
         
     else:
-        print("DIE")
         passports.append(string)
         string=""
         position=position+1
+print(passports)
+print(passports[1])
+doot=passports[1].replace(" ","")
+print(doot)
+for doot in passports:
+    set1=set()    
+    for i in doot.replace(" ",""):
+        set1.add(i)
+    print(set1)
+    sum1 = sum1 + len(set1)
+    print(sum1)
 
