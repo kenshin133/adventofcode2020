@@ -25,7 +25,8 @@ import re
     In this example, the sum of these counts is 3 + 3 + 3 + 1 + 1 = 11.
     
     For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts? 
-    --- Part Two ---
+
+--- Part Two ---
 As you finish the last group's customs declaration, you notice that you misread one word in the instructions:
 
 You don't need to identify the questions to which anyone answered "yes"; you need to identify the questions to which everyone answered "yes"!
@@ -59,9 +60,9 @@ In this example, the sum of these counts is 3 + 0 + 1 + 1 + 1 = 6.
 For each group, count the number of questions to which everyone answered "yes". What is the sum of those counts?
 '''
 
-#file=open("day6-input","r")
+file=open("day6-input","r")
 
-file=open("day6-input.sample","r")
+#file=open("day6-input.sample","r")
 temp=file.readlines()
 
 #this is from day4 and handles splitting multiple lines into seperate structures based on a blank line
@@ -93,32 +94,48 @@ for group in passports:
     bigtemp=""
     first=1 
     for d in group:
+        #print("d is " + str(d))
         if d == " ":
+            #if we find s space we will write whatever has accrued in the variable from the else statement below
             grouptemp.append(bigtemp)
+            #print("if bigtemp is " + str(bigtemp))
             bigtemp=""
         else:
             bigtemp=bigtemp+d
-
+            #print("else bigtemp is " + str(bigtemp))
     grouptemp.append(bigtemp)
     print(grouptemp)
     #this initiates the first set of letters which can be used to verify the following ones. 
     first=set()
+    winners=set()
+    #populate a first set of answers
     for i in grouptemp[0]:
         first.add(i)
-    for i in grouptemp:
-        for f in i:
-            if f in first:
-                print("this is found in thing" + f)
-    set1=set(group)    
-    set2=set()    
-    for d in group:
-        if d == " " or d == "":
-            pass
-        else:
-            if d in set1:
-                set2.add(d)
-    for i in group.replace(" ",""):
-        set1.add(i)
-    sum1 = sum1 + len(set1)
-    print(sum1)
+    #dont forget to skip the first 
+    if len(grouptemp)==1:
+        sum1 = sum1+len(grouptemp[0])
+        print("only one person, adding " + str(len(grouptemp[0])))
+        print("adding " + str(len(grouptemp[0])))
+        print("total is " + str(sum1))
+    else:
+        for i in grouptemp[1:]:
+            for f in i:
+                if f in first:
+                    winners.add(f)
 
+        print("winners are " + str(winners))
+        sum1 = sum1 + len(winners)
+        print("adding " + str(len(winners)))
+        print("total is " + str(sum1))
+        set1=set(group)    
+        set2=set()    
+        for d in group:
+            if d == " " or d == "":
+                pass
+            else:
+                if d in set1:
+                    set2.add(d)
+        for i in group.replace(" ",""):
+            set1.add(i)
+print("sum is " + str(sum1))
+print("the problem now is that it will check and add based on the first and second person, but the third + wont subtract")
