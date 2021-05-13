@@ -26,38 +26,38 @@ import re
     
     For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts? 
 
---- Part Two ---
-As you finish the last group's customs declaration, you notice that you misread one word in the instructions:
-
-You don't need to identify the questions to which anyone answered "yes"; you need to identify the questions to which everyone answered "yes"!
-
-Using the same example as above:
-
-abc
-
-a
-b
-c
-
-ab
-ac
-
-a
-a
-a
-a
-
-b
-This list represents answers from five groups:
-
-In the first group, everyone (all 1 person) answered "yes" to 3 questions: a, b, and c.
-In the second group, there is no question to which everyone answered "yes".
-In the third group, everyone answered yes to only 1 question, a. Since some people did not answer "yes" to b or c, they don't count.
-In the fourth group, everyone answered yes to only 1 question, a.
-In the fifth group, everyone (all 1 person) answered "yes" to 1 question, b.
-In this example, the sum of these counts is 3 + 0 + 1 + 1 + 1 = 6.
-
-For each group, count the number of questions to which everyone answered "yes". What is the sum of those counts?
+    --- Part Two ---
+    As you finish the last group's customs declaration, you notice that you misread one word in the instructions:
+    
+    You don't need to identify the questions to which anyone answered "yes"; you need to identify the questions to which everyone answered "yes"!
+    
+    Using the same example as above:
+    
+    abc
+    
+    a
+    b
+    c
+    
+    ab
+    ac
+    
+    a
+    a
+    a
+    a
+    
+    b
+    This list represents answers from five groups:
+    
+    In the first group, everyone (all 1 person) answered "yes" to 3 questions: a, b, and c.
+    In the second group, there is no question to which everyone answered "yes".
+    In the third group, everyone answered yes to only 1 question, a. Since some people did not answer "yes" to b or c, they don't count.
+    In the fourth group, everyone answered yes to only 1 question, a.
+    In the fifth group, everyone (all 1 person) answered "yes" to 1 question, b.
+    In this example, the sum of these counts is 3 + 0 + 1 + 1 + 1 = 6.
+    
+    For each group, count the number of questions to which everyone answered "yes". What is the sum of those counts?
 '''
 
 file=open("day6-input","r")
@@ -87,55 +87,60 @@ for i in temp:
         passports.append(string)
         string=""
         position=position+1
-print(passports)
+#print(passports)
 for group in passports:
     grouptemp=[]
-     
+    first=set()
     bigtemp=""
-    first=1 
+    #This creates a set of the correct passenger answers
     for d in group:
-        #print("d is " + str(d))
         if d == " ":
             #if we find s space we will write whatever has accrued in the variable from the else statement below
             grouptemp.append(bigtemp)
-            #print("if bigtemp is " + str(bigtemp))
             bigtemp=""
         else:
             bigtemp=bigtemp+d
-            #print("else bigtemp is " + str(bigtemp))
     grouptemp.append(bigtemp)
-    print(grouptemp)
+ #   print("grouptemp is" + str(grouptemp))
     #this initiates the first set of letters which can be used to verify the following ones. 
     first=set()
-    winners=set()
+    temp=set()
     #populate a first set of answers
     for i in grouptemp[0]:
         first.add(i)
-    #dont forget to skip the first 
-    if len(grouptemp)==1:
-        sum1 = sum1+len(grouptemp[0])
-        print("only one person, adding " + str(len(grouptemp[0])))
-        print("adding " + str(len(grouptemp[0])))
-        print("total is " + str(sum1))
-    else:
-        for i in grouptemp[1:]:
-            for f in i:
-                if f in first:
-                    winners.add(f)
 
-        print("winners are " + str(winners))
-        sum1 = sum1 + len(winners)
-        print("adding " + str(len(winners)))
-        print("total is " + str(sum1))
-        set1=set(group)    
-        set2=set()    
-        for d in group:
-            if d == " " or d == "":
-                pass
-            else:
-                if d in set1:
-                    set2.add(d)
-        for i in group.replace(" ",""):
-            set1.add(i)
+    #dont forget to skip the first 
+    print("grouptemp is " + str(grouptemp))
+    for i in grouptemp:
+        for f in i:
+            for d in f:
+                temp.add(d)
+    for i in grouptemp:
+        print("checking " + i)
+        for f in i:
+            print("checking letter " + f + " in " + i)
+            for v in grouptemp:
+                if f not in v:
+                    if f in temp:
+                        temp.remove(f)
+                        print("removing " + f)
+                    #print(temp)
+    #temp is wipes by this point 
+    print("lenth of " + str(temp) + " = " + str(len(temp)))
+    print("temp is " + str(temp))
+    #print("winners are " + str(winners))
+    sum1 = sum1 + len(temp)
+    #print("adding " + str(len(winners)))
+    #print("total is " + str(sum1))
+    set1=set(group)    
+    set2=set()    
+    for d in group:
+        if d == " " or d == "":
+            pass
+        else:
+            if d in set1:
+                set2.add(d)
+    for i in group.replace(" ",""):
+        set1.add(i)
 print("sum is " + str(sum1))
-print("the problem now is that it will check and add based on the first and second person, but the third + wont subtract")
+#print("the problem now is that it will check and add based on the first and second person, but the third + wont subtract")
