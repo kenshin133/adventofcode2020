@@ -39,6 +39,31 @@ How many bag colors can eventually contain at least one shiny gold bag? (The lis
 
 '''
 #here is some quick code, this is the results when ran on :
+
+
+#>>> rule="dark orange bags contain 3 bright white bags, 4 muted yellow bags."
+#>>> rulesplit=rule.split(" contain ")
+#>>> print(rulesplit)
+#['dark orange bags', '3 bright white bags, 4 muted yellow bags.']
+#>>> rule1=[rulesplit[0]]
+#>>> print(rule1)
+#['dark orange bags']
+#>>> for i in rulesplit[1].split(", "):
+#...     rule1.append(i.strip('.'))
+#... 
+#>>> print(rule1)
+#['dark orange bags', '3 bright white bags', '4 muted yellow bags']
+
+def splitRule(rule):
+    #print(rule)
+    rulesplittemp=rule.split(" contain ")
+    #print(rulesplittemp)
+    rule1=[rulesplittemp[0]]
+    #print(rule1)
+    for i in rulesplittemp[1].split(", "):
+        rule1.append(i.strip(".\n"))
+    print(rule1)
+
 #a bag with multiple internal bags : >>> print(rule1)
 #['shiny violet', '5 shiny aqua bags', '1 striped brown bag', '1 dark blue bag', '5 wavy white bags']
 #a bad with one internal bag : >>> print(rule2)
@@ -52,4 +77,6 @@ How many bag colors can eventually contain at least one shiny gold bag? (The lis
 file=open("day7-input.sample","r")
 temp=file.readlines()
 
-print(temp)
+#rule="muted yellow bags contain 2 shiny gold bags, 9 faded blue bags."
+for rule in temp:
+    splitRule(rule)
