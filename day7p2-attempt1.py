@@ -1,34 +1,33 @@
 import re
 
-'''
-    --- Day 7: Handy Haversacks ---
-    --- Part Two ---
-    It's getting pretty expensive to fly these days - not because of ticket prices, but because of the ridiculous number of bags you need to buy!
+# '''
+    #     --- Day 7: Handy Haversacks ---
+    #     --- Part Two ---
+    #     It's getting pretty expensive to fly these days - not because of ticket prices, but because of the ridiculous number of bags you need to buy!
 
-    Consider again your shiny gold bag and the rules from the above example:
+    #     Consider again your shiny gold bag and the rules from the above example:
 
-    faded blue bags contain 0 other bags.
-    dotted black bags contain 0 other bags.
-    vibrant plum bags contain 11 other bags: 5 faded blue bags and 6 dotted black bags.
-    dark olive bags contain 7 other bags: 3 faded blue bags and 4 dotted black bags.
-    So, a single shiny gold bag must contain 1 dark olive bag (and the 7 bags within it) plus 2 vibrant plum bags (and the 11 bags within each of those): 1 + 1*7 + 2 + 2*11 = 32 bags!
+    #     faded blue bags contain 0 other bags.
+    #     dotted black bags contain 0 other bags.
+    #     vibrant plum bags contain 11 other bags: 5 faded blue bags and 6 dotted black bags.
+    #     dark olive bags contain 7 other bags: 3 faded blue bags and 4 dotted black bags.
+    #     So, a single shiny gold bag must contain 1 dark olive bag (and the 7 bags within it) plus 2 vibrant plum bags (and the 11 bags within each of those): 1 + 1*7 + 2 + 2*11 = 32 bags!
 
-    Of course, the actual rules have a small chance of going several levels deeper than this example; be sure to count all of the bags, even if the nesting becomes topologically impractical!
+    #     Of course, the actual rules have a small chance of going several levels deeper than this example; be sure to count all of the bags, even if the nesting becomes topologically impractical!
 
-    Here's another example:
+    #     Here's another example:
 
-    shiny gold bags contain 2 dark red bags.
-    dark red bags contain 2 dark orange bags.
-    dark orange bags contain 2 dark yellow bags.
-    dark yellow bags contain 2 dark green bags.
-    dark green bags contain 2 dark blue bags.
-    dark blue bags contain 2 dark violet bags.
-    dark violet bags contain no other bags.
-    In this example, a single shiny gold bag must contain 126 other bags.
+    #     shiny gold bags contain 2 dark red bags.
+    #     dark red bags contain 2 dark orange bags.
+    #     dark orange bags contain 2 dark yellow bags.
+    #     dark yellow bags contain 2 dark green bags.
+    #     dark green bags contain 2 dark blue bags.
+    #     dark blue bags contain 2 dark violet bags.
+    #     dark violet bags contain no other bags.
+    #     In this example, a single shiny gold bag must contain 126 other bags.
 
-    How many individual bags are required inside your single shiny gold bag?
-'''
-
+    #     How many individual bags are required inside your single shiny gold bag?
+# '''
 
 
 bags = {}
@@ -57,9 +56,8 @@ def splitRule(rule):
     tempDict={rulekey:templist}
     #print(f'bags is {bags}')
     bags.update(tempDict)
-def countBags(bagColor, number):
-    bagsfound=0
-    numberofbags=0
+def countBags(bagColor):
+    bagsfound=1
     print(f'calculating for {bagColor}')
     #for each color inside the bag rule
     print(f'for i in {bags[bagColor]}')
@@ -70,34 +68,32 @@ def countBags(bagColor, number):
             key = k
         for v in i.values():
             value = v
-        print(f'value : {value} key : {key}')
-    #     if i == 'no other bag':
-    #         pass
-    #     else:
-    #         numberofbags=bags[bagColor][0][i]
+        #print(f'value : {value} key : {key}')
+        if k == 'no other bag':
+            pass
+        else:
     #         #print(f'number of bags for {i} is {numberofbags}')
     #         #print(bags[bagColor][0][i])
     #         #print(bags[bagColor])
     #         #print("going deeper")
-    #         #add one for the current bag
-    #         bagsfound=int(bagsfound) + 1
+    #         #add one for the current bag         
     #         #add N for the inner bags
-    #         bagsfound=bagsfound+countBags(i, numberofbags)
-    # print(f'returning {int(bagsfound)*int(number)} total for {bagColor}')
-    return int(bagsfound)*int(number)
+            bagsfound=bagsfound+(countBags(k)*int(v))
+    print(f'returning {int(bagsfound)} total for {bagColor}')
+    return int(bagsfound)
 
 #testing structure
 #make sure to translate all bags to bag to normalize the data
 
 
 
-'''Starting with gold bag
-    check what is inside shiny gold bag
-    resursively check inside each of those and return the total (times the number of bags)
-    add up the totals as you go, add, multiply, return
-    '''
+# '''Starting with gold bag
+    #     check what is inside shiny gold bag
+    #     resursively check inside each of those and return the total (times the number of bags)
+    #     add up the totals as you go, add, multiply, return
+#     '''
 
-file=open("day7-input-p2.sample","r")
+file=open("day7-input","r")
 
 temp=file.readlines()
 #rule="muted yellow bags contain 2 shiny gold bags, 9 faded blue bags."
@@ -106,7 +102,7 @@ for rule in temp:
     splitup=splitRule(rule)
     #print(splitup)
 
-bagsNeeded=countBags("dark olive bag", 1)
+bagsNeeded=countBags("shiny gold bag")-1
 #print(f'you need {bagsNeeded} to fly')
 
     #testingStruct={'light red bag':[{'bright white bag' : 2, 'bright yellow bag':1}]}
